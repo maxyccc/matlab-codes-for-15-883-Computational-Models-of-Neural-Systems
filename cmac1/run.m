@@ -14,13 +14,14 @@
 Memsize = 4096;
 Nhashes = 32;
 Nbuckets_per_hash = 11;
+hash_stride = 2;
 bucketsize = floor(360/Nbuckets_per_hash);
 Tolerance = 0.01;
 
-a = Nhashes*(0:Nbuckets_per_hash-1);
-s = 2*(0:Nhashes-1)';
+base_bmin = bucketsize * (0:Nbuckets_per_hash-1);
+offsets = hash_stride * (0:Nhashes-1)';
 
-bmin = repmat(a,Nhashes,1) + repmat(s,1,Nbuckets_per_hash);
+bmin = repmat(base_bmin, Nhashes, 1) + repmat(offsets, 1, Nbuckets_per_hash);
 bmax = bmin + bucketsize - 1;
 
 % For each hash, grab a set of bins at random from the pool.
