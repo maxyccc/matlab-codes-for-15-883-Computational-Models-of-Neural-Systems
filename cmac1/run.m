@@ -11,34 +11,19 @@
 % This scheme uses at most 11*32 = 352 memory locations out of 4096.
 % The actual number used may be lower, due to collisions.
 
+% Declare key parameters as global so they can be modified by GUI controls
+
 Memsize = 4096;
 Nhashes = 32;
 Nbuckets_per_hash = 11;
 hash_stride = 2;
-bucketsize = floor(360/Nbuckets_per_hash);
 Tolerance = 0.01;
 
-base_bmin = bucketsize * (0:Nbuckets_per_hash-1);
-offsets = hash_stride * (0:Nhashes-1)';
-
-bmin = repmat(base_bmin, Nhashes, 1) + repmat(offsets, 1, Nbuckets_per_hash);
-bmax = bmin + bucketsize - 1;
-
-% For each hash, grab a set of bins at random from the pool.
-buckets = [];
-for i = 1:Nhashes
-  cands = randperm(Memsize);
-  buckets(i,:) = cands(1:Nbuckets_per_hash);
-end
-
-bmin = bmin(:);
-bmax = bmax(:);
-buckets = buckets(:);
-
 bucket_mode = 1;  % 1 for randomly drawn buckets; 2 for systematically ordered
-random_buckets
 
 cmac_memory = zeros(Memsize,1);
 
+% Initialize CMAC parameters and structure
+reinit_cmac
+
 setup_graphics
-reset_cmac
