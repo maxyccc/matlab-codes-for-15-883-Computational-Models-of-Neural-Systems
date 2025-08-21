@@ -3,7 +3,8 @@
 if bucket_mode == 1
   m = reshape(cmac_memory,64,64);
 else
-  m = reshape(cmac_memory(1:Nhashes*Nbuckets_per_hash),Nhashes,Nbuckets_per_hash)';
+  % In sequential mode, also display the full CMAC memory for a comprehensive view
+  m = reshape(cmac_memory,64,64);
 end
 set(h_mem,'CData',m)
   

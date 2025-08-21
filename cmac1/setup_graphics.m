@@ -11,10 +11,11 @@ if bucket_mode == 1
   axis([0 63 0 63]), axis off, axis equal
   caxis([-0.01,0.01])
 else
-  h_mem = surf(1:Nhashes,1:Nbuckets_per_hash,zeros(Nbuckets_per_hash,Nhashes));
-  axis off
-  view([90 90])
-  caxis([-0.07 0.07])
+  % For sequential mode, show the full CMAC memory just like random mode
+  h_mem = surf(0:63,0:63,zeros(64));
+  view([0 90])
+  axis([0 63 0 63]), axis off, axis equal
+  caxis([-0.01,0.01])
 end
 colormap jet
 
