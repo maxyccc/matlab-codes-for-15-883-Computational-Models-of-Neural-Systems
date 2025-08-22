@@ -23,8 +23,8 @@ ax_mem = axes('Position',[0.05 0.52 0.40 0.45]);
 h_mem = surf(0:63,0:63,zeros(64));
 view([0 90])                    % Top-down view for 2D heatmap
 axis([0 63 0 63]), axis off, axis equal  % Square aspect ratio, no axes
-clim([-0.01,0.01])             % Set color scale for weight values
-colormap jet                   % Use jet colormap (blue=negative, red=positive)
+clim([-0.04,0.04])             % Set color scale for weight values
+colormap(bwr);               % Use bwr colormap (blue=negative, red=positive)
 
 % Create output comparison panel (top-right)
 ax_out = axes('Position',[0.55 0.5 0.40 0.45]);
