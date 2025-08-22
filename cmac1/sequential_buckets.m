@@ -1,15 +1,24 @@
-% sequential_buckets
+% sequential_buckets.m
+% Create sequential bucket-to-memory mapping for CMAC
+%
+% This function implements the sequential memory assignment strategy where
+% buckets are mapped to memory locations in a deterministic, evenly-spaced
+% pattern. This approach avoids hash collisions and ensures uniform memory
+% utilization, making it easier to analyze CMAC behavior.
 
-% Fair sequential buckets - distribute across full memory space
+% Pre-allocate cell array for memory assignments
 bins_assigned = cell(360,1);
-% Ensure stride is at least 1 to avoid collapsing to a single cell
+
+% Calculate memory stride to distribute buckets evenly across memory space
+% Ensure minimum stride of 1 to prevent multiple buckets mapping to same location
 memory_stride = max(1, floor(Memsize / (Nhashes * Nbuckets_per_hash)));
 
+% For each possible input value (0-359 degrees)
 for z = 0:359
-  % Match the wrap-around logic used in random_buckets so each input
-  % activates one bucket per hash (i.e., a full set of cells), not just one.
+  % Find which buckets are activated by this input value
   c = find( (z>=bmin & z<=bmax) | (z>=bmin-360 & z<=bmax-360) );
-  % Map bucket indices to distributed memory locations deterministically
+
+  % Map bucket indices to evenly distributed memory locations
   memory_locations = mod((c-1) * memory_stride, Memsize) + 1;
-  bins_assigned{z+1} = memory_locations;
+  bins_assigned{z+1} = memory_locations;  % Note: MATLAB uses 1-based indexing
 end

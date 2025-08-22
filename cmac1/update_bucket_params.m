@@ -1,7 +1,12 @@
-% update_cmac_params - Callback function for CMAC parameter GUI controls
-% This function handles updates to Nhashes, Nbuckets_per_hash, and hash_stride
-% parameters from the GUI edit boxes, validates input, and re-initializes the CMAC.
-
+% update_bucket_params.m
+% GUI callback function for CMAC parameter controls
+%
+% This function handles updates to the core CMAC architecture parameters:
+% - Nhashes: number of overlapping hash tables
+% - Nbuckets_per_hash: number of buckets in each hash table
+% - hash_stride: degree offset between consecutive hash tables
+% It validates user input and re-initializes the CMAC with new parameters.
+%
 % Copyright (c) 1997, 2005 by David S. Touretzky.
 % Carnegie Mellon University
 
@@ -46,6 +51,3 @@ end
 
 % Re-initialize the CMAC with the new parameters
 setup_buckets
-
-% Reset the simulation state
-reset_cmac
