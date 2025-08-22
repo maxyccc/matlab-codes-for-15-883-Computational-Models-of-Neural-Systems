@@ -45,4 +45,7 @@ switch tag
 end
 
 % Re-initialize the CMAC with the new parameters
-reinit_cmac;
+setup_buckets
+
+% Reset the simulation state
+reset_cmac

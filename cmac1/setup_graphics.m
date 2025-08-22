@@ -1,4 +1,7 @@
-figure(1)
+f = figure(1);
+f.Units = 'normalized';
+f.Position(4) = 0.6; % height
+
 colordef none
 clf reset
 whitebg(gcf,[0 0 0])
@@ -19,9 +22,6 @@ else
 end
 colormap jet
 
-xcoords = 0:359;
-ycoords = sin(xcoords*pi/180);
-
 ax_out = axes('Position',[0.55 0.5 0.40 0.45]);
 hold on
 h_desired = plot(xcoords,ycoords,':','Color','c');
@@ -29,7 +29,7 @@ h_out = plot(xcoords,0*xcoords,'Color','w');
 axis([0 360 -1.3 1.3])
 axis off
 
-ax_in = axes('Position',[0.15 0.15 0.75 0.32]);
+ax_in = axes('Position',[0.15 0.30 0.75 0.18]);
 hold on
 h_in = plot(xcoords,ycoords,'g');
 axis([0 360 -1.2 1.2])
@@ -38,6 +38,44 @@ set(ax_in,'Xtick',[0 90 180 270 360])
 set(ax_in,'ButtonDownFcn','clickhandler')
 set(h_in,'ButtonDownFcn','clickhandler')
 title('Click on the green curve to sample data points','Color','g')
+
+% --- Create axes for Tiling/Bucket Visualization ---
+ax_hist = axes('Position',[0.15 0.15 0.75 0.10]);
+hold on;
+xlabel('Buckets in Input Space (0-359)');
+ylabel('Hash #');
+set(ax_hist, 'YDir', 'reverse'); % Puts hash 1 at the top
+axis([0 359 0 Nhashes+1]);
+box on;
+set(ax_hist, 'XColor', 'w', 'YColor', 'w');
+
+% --- Draw the buckets for each hash ---
+g_h_hist_bars = cell(Nhashes * Nbuckets_per_hash, 1);
+bmin_matrix = mod(reshape(bmin, Nhashes, Nbuckets_per_hash), 360);
+bmax_matrix = mod(reshape(bmax, Nhashes, Nbuckets_per_hash), 360);
+inactive_color = [0.4 0.4 0.4];
+
+for i = 1:Nhashes
+  for j = 1:Nbuckets_per_hash
+    x_min = bmin_matrix(i,j);
+    x_max = bmax_matrix(i,j);
+    y_pos = i - 0.4;
+    height = 0.8;
+
+    idx = sub2ind([Nhashes, Nbuckets_per_hash], i, j);
+
+    if x_min > x_max % Handle wrap-around buckets
+      % Draw part 1 (from x_min to end)
+      p1 = patch([x_min 359 359 x_min], [y_pos y_pos y_pos+height y_pos+height], inactive_color);
+      % Draw part 2 (from start to x_max)
+      p2 = patch([0 x_max x_max 0], [y_pos y_pos y_pos+height y_pos+height], inactive_color);
+      g_h_hist_bars{idx} = [p1, p2];
+    else
+      p = patch([x_min x_max x_max x_min], [y_pos y_pos y_pos+height y_pos+height], inactive_color);
+      g_h_hist_bars{idx} = p;
+    end
+  end
+end
 
 reset_button = ...
     uicontrol('Style','Pushbutton', ...
@@ -112,13 +150,12 @@ uicontrol('Style','edit', 'Position',[340 param_row_y 40 20], ...
           'Callback','update_cmac_params');
 
 % --- Learning Rate (Re-created and moved for horizontal alignment) ---
-g_text = uicontrol('Style','Text', ...
-           'Units','Pixels', 'Position',[390 param_row_y 80 20], ...
-           'BackgroundColor',[0 0 0], 'ForegroundColor',[0.8 0.8 1], ...
-           'String','Learning rate:');
-g_valbox = uicontrol('Style','Edit', ...
-           'Units','Pixels', 'Position',[475 param_row_y 50 20], ...
-           'BackgroundColor',[0.8 0.8 1], ...
-           'Value',1, 'String','1', ...
-           'CallBack','set_g_value');
-set_g_value
+uicontrol('Style','Text', ...
+          'Units','Pixels', 'Position',[390 param_row_y 80 20], ...
+          'BackgroundColor',[0 0 0], 'ForegroundColor',[0.8 0.8 1], ...
+          'String','Learning rate:');
+uicontrol('Style','Edit', ...
+          'Units','Pixels', 'Position',[475 param_row_y 50 20], ...
+          'BackgroundColor',[0.8 0.8 1], ...
+          'String',num2str(g_val), ...
+          'CallBack','set_g_value');

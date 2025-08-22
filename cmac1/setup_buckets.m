@@ -1,11 +1,5 @@
-% reinit_cmac.m - Reinitialize CMAC parameters and structure
-% This script recalculates the CMAC structure based on current parameter values
-% and resets the simulation state.
+% setup_buckets.m
 
-% Copyright (c) 1997, 2005 by David S. Touretzky.
-% Carnegie Mellon University
-
-% Calculate bucket size based on current parameters
 bucketsize = floor(360/Nbuckets_per_hash);
 
 % Calculate base bucket boundaries and offsets
@@ -34,6 +28,3 @@ if bucket_mode == 1
 else
   sequential_buckets
 end
-
-% Reset the simulation state
-reset_cmac

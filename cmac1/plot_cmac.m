@@ -20,3 +20,5 @@ set(h_out,'YData',youtput)
 RMS = sqrt(mean((youtput-ycoords).^2));
 title(sprintf('Points = %d:  MaxErr = %4.3f, RMS = %4.3f', ...
 	      Npresented, max(abs(youtput-ycoords)), RMS))
+
+plot_buckets

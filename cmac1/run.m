@@ -13,17 +13,24 @@
 
 % Declare key parameters as global so they can be modified by GUI controls
 
+last_point = [];
+
 Memsize = 4096;
 Nhashes = 32;
 Nbuckets_per_hash = 11;
 hash_stride = 2;
+
+g_val = 1;
 Tolerance = 0.01;
+
+xcoords = 0:359;
+ycoords = sin(xcoords*pi/180);
 
 bucket_mode = 1;  % 1 for randomly drawn buckets; 2 for systematically ordered
 
 cmac_memory = zeros(Memsize,1);
 
-% Initialize CMAC parameters and structure
-reinit_cmac
+setup_buckets
 
-setup_graphics
+% Reset the simulation state
+reset_cmac

@@ -1,3 +1,7 @@
+setup_graphics
+
+last_point = [];
+
 cmac_memory(:) = 0;
 training_points = zeros(0,2);
 Npresented = 0;

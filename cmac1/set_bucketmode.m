@@ -8,5 +8,4 @@ else
   sequential_buckets
 end
 
-setup_graphics
 reset_cmac

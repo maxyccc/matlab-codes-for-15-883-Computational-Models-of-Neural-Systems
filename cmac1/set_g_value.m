@@ -1,10 +1,13 @@
 % set_g_value.m
 
-val = str2num(get(g_valbox,'String'));
+h = gcbo;
+new_val = str2num(get(h,'String'));
 
-if isempty(val) | length(val) > 1 | val < 1e-3 | val > 9
-  set(g_valbox,'String',num2str(get(g_valbox,'Value')))
+if isempty(new_val) | length(new_val) > 1 | new_val < 1e-3 | new_val > 9
+    set(h, 'String', num2str(g_val));
+    return;
 else
-  set(g_valbox,'Value',val,'String',sprintf('%4.3f',val))
+    g_val = new_val;
 end
 
+reset_cmac
