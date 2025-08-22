@@ -31,3 +31,4 @@ end
 
 % Force immediate graphics update
 drawnow;
+

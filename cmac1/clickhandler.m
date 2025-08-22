@@ -11,11 +11,10 @@ p = get(ax_in,'CurrentPoint');
 xcoords(1);  % Work-around for bug in MATLAB 7.0.0
 
 % Convert click position to valid input value (0-359 degrees)
-xval = max(xcoords(1),min(xcoords(end),floor(p(1))));
-last_point = xval;  % Remember this point for visualization
+last_point = max(xcoords(1),min(xcoords(end),floor(p(1))));
 
 % Create coordinate pair [input, target_output]
-pcoords = [xval ycoords(1+xval)];  % Note: ycoords is 1-indexed
+pcoords = [last_point ycoords(1+last_point)];  % Note: ycoords is 1-indexed
 
 % Add this point to the training set and train the CMAC
 store_item

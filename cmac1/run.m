@@ -44,5 +44,10 @@ func_mode = 1;               % 1 = sine wave, 2 = higher frequency sine, 3 = eve
 % Initialize CMAC memory array
 cmac_memory = zeros(Memsize,1);
 
+% Initialize vertical line for ax_in and ax_hist and ax_out
+xline_in = [];
+xline_hist = [];
+xline_out = [];
+
 % Configure bucket boundaries and memory assignments
 setup_buckets

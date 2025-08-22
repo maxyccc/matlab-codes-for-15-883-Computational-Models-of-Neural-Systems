@@ -51,7 +51,8 @@ hold on;
 xlabel('Buckets in Input Space (0-359)');      % X-axis shows input degrees
 ylabel('Hash #');                              % Y-axis shows hash table number
 set(ax_hist, 'YDir', 'reverse');              % Hash 1 at top, higher numbers below
-axis([0 359 0 Nhashes+1]);                    % Set axis limits
+axis([0 360 0 Nhashes+1]);                    % Set axis limits
+set(ax_hist,'Xtick',[0 90 180 270 360])         % Show degree markers
 box on;                                        % Show box around plot
 set(ax_hist, 'XColor', 'w', 'YColor', 'w');   % White axis labels
 
